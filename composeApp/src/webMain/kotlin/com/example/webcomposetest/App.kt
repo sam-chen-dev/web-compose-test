@@ -72,7 +72,7 @@ private fun StudentListItem(student: Student) {
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(20.dp)
     ) {
         Text(student.name)
     }
