@@ -2,6 +2,8 @@
 .kotlin
 .gradle
 build
+!composeApp/build/dist/wasmJs/productionExecutable
+!composeApp/build/dist/wasmJs/productionExecutable/**
 xcuserdata
 local.properties
 .idea
