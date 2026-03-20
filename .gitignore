@@ -1,8 +1,10 @@
 *.iml
 .kotlin
 .gradle
-build
-!composeApp/build/dist/wasmJs/productionExecutable
+**/build/*
+!composeApp/build/dist/
+!composeApp/build/dist/wasmJs/
+!composeApp/build/dist/wasmJs/productionExecutable/
 !composeApp/build/dist/wasmJs/productionExecutable/**
 xcuserdata
 local.properties
