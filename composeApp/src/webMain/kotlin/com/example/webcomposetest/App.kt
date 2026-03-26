@@ -37,7 +37,7 @@ fun App() {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            /*Button(onClick = { showContent = !showContent }) {
+            Button(onClick = { showContent = !showContent }) {
                 Text("Click here!")
             }
 
@@ -51,9 +51,9 @@ fun App() {
                     Image(painterResource(Res.drawable.compose_multiplatform), null)
                     Text("Compose: $greeting")
                 }
-            }*/
+            }
 
-            StudentList(SampleData.students)
+            //StudentList(SampleData.students)
         }
     }
 }
@@ -72,7 +72,7 @@ private fun StudentListItem(student: Student) {
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(20.dp)
+            .padding(16.dp)
     ) {
         Text(student.name)
     }
