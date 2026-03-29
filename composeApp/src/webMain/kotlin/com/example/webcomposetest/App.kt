@@ -1,79 +1,45 @@
 package com.example.webcomposetest
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.example.webcomposetest.models.Student
-import com.example.webcomposetest.utils.SampleData
-import org.jetbrains.compose.resources.painterResource
-
-import webcomposetest.composeapp.generated.resources.Res
-import webcomposetest.composeapp.generated.resources.compose_multiplatform
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.navigation3.runtime.NavKey
+import com.example.webcomposetest.navigation.NavDisplay
+import com.example.webcomposetest.navigation.StudentDetail
+import com.example.webcomposetest.navigation.StudentList
+import com.github.terrakok.navigation3.browser.ChronologicalBrowserNavigation
+import com.github.terrakok.navigation3.browser.buildBrowserHistoryFragment
+import com.github.terrakok.navigation3.browser.getBrowserHistoryFragmentName
 
 @Composable
 fun App() {
     MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
+        val backStack = remember { mutableStateListOf<NavKey>(StudentList) }
+        //val backStack = rememberNavBackStack(StudentList)
 
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click here!")
-            }
+        ChronologicalBrowserNavigation(
+            backStack = backStack,
+            saveKey = { key ->
+                when (key) {
+                    is StudentList -> buildBrowserHistoryFragment(StudentList.toString())
 
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
+                    is StudentDetail -> buildBrowserHistoryFragment(StudentDetail.toString())
 
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
+                    else -> null
+                }
+            },
+            restoreKey = { fragment ->
+                when (getBrowserHistoryFragmentName(fragment)) {
+                    StudentList.toString() -> StudentList
+
+                    StudentDetail.toString() -> StudentDetail
+
+                    else -> null
                 }
             }
+        )
 
-            //StudentList(SampleData.students)
-        }
-    }
-}
-
-@Composable
-private fun StudentList(students: List<Student>) {
-    LazyColumn(Modifier.fillMaxWidth()) {
-        items(students) { student ->
-            StudentListItem(student)
-        }
-    }
-}
-
-@Composable
-private fun StudentListItem(student: Student) {
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text(student.name)
+        NavDisplay(backStack)
     }
 }
