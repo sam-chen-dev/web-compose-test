@@ -17,10 +17,15 @@ import androidx.compose.ui.Modifier
 fun StudentDetailScreen(
     onBackTrigger: () -> Unit
 ) {
-    Column(Modifier.fillMaxWidth()) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Toolbar(onBackTrigger)
 
-        Box(Modifier.fillMaxSize(), Alignment.Center) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
             //Button("Go Back", onBackTrigger)
         }
     }
