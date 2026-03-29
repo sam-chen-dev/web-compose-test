@@ -30,6 +30,10 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.jetbrains.navigation3.ui)
+            implementation(libs.jetbrains.lifecycle.viewmodelNavigation3)
+            implementation(libs.navigation3.browser)
+            implementation(libs.tabler.icons)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
