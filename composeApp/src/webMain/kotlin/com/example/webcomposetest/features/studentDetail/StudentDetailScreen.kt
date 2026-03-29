@@ -12,9 +12,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.webcomposetest.utils.IconButton
-import compose.icons.TablerIcons
-import compose.icons.tablericons.ArrowBack
 
 @Composable
 fun StudentDetailScreen(
@@ -34,7 +31,7 @@ fun StudentDetailScreen(
 private fun Toolbar(onBackClick: () -> Unit) {
     TopAppBar(
         title = { Text("Student Detail") },
-        navigationIcon = { IconButton(TablerIcons.ArrowBack, "Back", onBackClick) },
+        //navigationIcon = { IconButton(TablerIcons.ArrowLeft, "Back", onBackClick) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
