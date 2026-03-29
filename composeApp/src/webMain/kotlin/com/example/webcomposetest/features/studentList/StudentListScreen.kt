@@ -18,10 +18,15 @@ import com.example.webcomposetest.utils.Button
 fun StudentListScreen(
     onGoClick: () -> Unit
 ) {
-    Column(Modifier.fillMaxWidth()) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Toolbar()
 
-        Box(Modifier.fillMaxSize(), Alignment.Center) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
             Button("Go to Detail", onGoClick)
         }
     }
