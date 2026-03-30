@@ -1,5 +1,6 @@
 package com.example.webcomposetest.features.studentList
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,22 +13,28 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.webcomposetest.di.Animal
 import com.example.webcomposetest.utils.Button
+import org.koin.compose.koinInject
 
 @Composable
 fun StudentListScreen(
     onGoClick: () -> Unit
 ) {
+    val animal: Animal = koinInject()
+
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
         Toolbar()
 
-        Box(
+        Column(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button("Go to Detail", onGoClick)
+            Text("Animal: ${animal.name}")
         }
     }
 }
