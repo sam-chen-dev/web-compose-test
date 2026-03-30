@@ -1,7 +1,6 @@
 package com.example.webcomposetest.features.studentList
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +12,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.webcomposetest.di.Animal
+import com.example.webcomposetest.utils.Animal
 import com.example.webcomposetest.utils.Button
 import org.koin.compose.koinInject
 

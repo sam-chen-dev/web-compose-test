@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavKey
-import com.example.webcomposetest.di.koinConfiguration
+import com.example.webcomposetest.di.appModule
 import com.example.webcomposetest.navigation.NavDisplay
 import com.example.webcomposetest.navigation.StudentDetail
 import com.example.webcomposetest.navigation.StudentList
@@ -13,10 +13,11 @@ import com.github.terrakok.navigation3.browser.ChronologicalBrowserNavigation
 import com.github.terrakok.navigation3.browser.buildBrowserHistoryFragment
 import com.github.terrakok.navigation3.browser.getBrowserHistoryFragmentName
 import org.koin.compose.KoinApplication
+import org.koin.dsl.KoinConfiguration
 
 @Composable
 fun App() = KoinApplication(
-    configuration = koinConfiguration,
+    configuration = KoinConfiguration { modules(appModule) },
     content = {
         MaterialTheme {
             val backStack = remember { mutableStateListOf<NavKey>(StudentList) }
