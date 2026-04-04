@@ -35,6 +35,7 @@ kotlin {
             implementation(libs.navigation3.browser)
             implementation(libs.tabler.icons)
             implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
