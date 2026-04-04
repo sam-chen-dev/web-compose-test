@@ -10,17 +10,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.webcomposetest.utils.Animal
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.webcomposetest.utils.Button
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun StudentListScreen(
     onGoClick: () -> Unit
 ) {
-    val animal: Animal = koinInject()
+    val viewModel: StudentListViewModel = koinViewModel()
+    val name by viewModel.name.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -33,7 +35,7 @@ fun StudentListScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button("Go to Detail", onGoClick)
-            Text("Animal: ${animal.name}")
+            Text("Name: $name")
         }
     }
 }

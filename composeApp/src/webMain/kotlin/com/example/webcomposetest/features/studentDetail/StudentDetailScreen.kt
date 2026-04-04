@@ -10,16 +10,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.webcomposetest.utils.Animal
-import org.koin.compose.koinInject
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun StudentDetailScreen(
     onBackTrigger: () -> Unit
 ) {
-    val animal: Animal = koinInject()
+    val viewModel: StudentDetailViewModel = koinViewModel()
+    val number by viewModel.number.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -31,7 +33,7 @@ fun StudentDetailScreen(
             contentAlignment = Alignment.Center
         ) {
             //Button("Go Back", onBackTrigger)
-            Text("Animal: ${animal.name}")
+            Text("Number: $number")
         }
     }
 }
