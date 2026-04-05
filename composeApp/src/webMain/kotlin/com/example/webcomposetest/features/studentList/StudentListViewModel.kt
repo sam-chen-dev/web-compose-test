@@ -2,19 +2,28 @@ package com.example.webcomposetest.features.studentList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.webcomposetest.models.Student
+import com.example.webcomposetest.repos.StudentsRepoImpl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class StudentListViewModel : ViewModel() {
+class StudentListViewModel(private val studentsRepo: StudentsRepoImpl) : ViewModel() {
     private val uiScope = viewModelScope
-    private val _name = MutableStateFlow("Samhahaha")
+    private val _students = MutableStateFlow<List<Student>>(emptyList())
 
-    val name = _name.asStateFlow()
+    val students = _students.asStateFlow()
 
     init {
-
+        downloadStudents()
     }
 
-    fun updateName(name: String) = _name.update { name }
+    fun downloadStudents() = uiScope.launch {
+        try {
+            _students.update { studentsRepo.getStudents() }
+        } catch (e: Exception) {
+            println("Error: ${e.message.toString()}")
+        }
+    }
 }
