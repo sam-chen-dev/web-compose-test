@@ -18,3 +18,4 @@ captures
 node_modules/
 /composeApp/build
 /composeApp/build/dist
+composeApp/build/dist/wasmJs/productionExecutable/composeApp.js

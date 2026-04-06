@@ -22,6 +22,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.webcomposetest.models.Student
+import com.example.webcomposetest.utils.IconButton
+import compose.icons.TablerIcons
+import compose.icons.tablericons.Refresh
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -30,6 +33,7 @@ fun StudentListScreen(
 ) {
     val viewModel: StudentListViewModel = koinViewModel()
     val students by viewModel.students.collectAsStateWithLifecycle()
+    val onRefreshClick: () -> Unit = { viewModel.refreshStudents() }
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.refreshStudents()
@@ -38,14 +42,14 @@ fun StudentListScreen(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Toolbar()
+        Toolbar(onRefreshClick)
         StudentList(students, onStudentClick)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Toolbar() {
+private fun Toolbar(onRefreshClick: () -> Unit) {
     TopAppBar(
         title = { Text("Student List") },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -53,7 +57,10 @@ private fun Toolbar() {
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
             navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
             actionIconContentColor = MaterialTheme.colorScheme.onPrimary
-        )
+        ),
+        actions = {
+            IconButton(TablerIcons.Refresh, "Refresh", onRefreshClick)
+        }
     )
 }
 
