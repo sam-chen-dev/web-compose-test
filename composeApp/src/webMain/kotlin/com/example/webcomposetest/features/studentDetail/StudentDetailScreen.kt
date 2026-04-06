@@ -24,6 +24,7 @@ import com.example.webcomposetest.models.Student
 import com.example.webcomposetest.utils.IconButton
 import compose.icons.TablerIcons
 import compose.icons.tablericons.Check
+import compose.icons.tablericons.Trash
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -36,10 +37,19 @@ fun StudentDetailScreen(
     val student by viewModel.student.collectAsStateWithLifecycle()
     val nameState = viewModel.nameState
     val onSaveClick: () -> Unit = { viewModel.saveStudent() }
+    val onDeleteClick: () -> Unit = { viewModel.deleteStudent() }
 
     LaunchedEffect(Unit) {
-        viewModel.isSavedSuccessfully.collect { isSuccessful ->
-            if (isSuccessful) {
+        viewModel.isSavedSuccessfully.collect { isSavedSuccessfully ->
+            if (isSavedSuccessfully) {
+                onBackTrigger()
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.isDeletedSuccessfully.collect { isDeletedSuccessfully ->
+            if (isDeletedSuccessfully) {
                 onBackTrigger()
             }
         }
@@ -48,14 +58,14 @@ fun StudentDetailScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        Toolbar(onSaveClick)
+        Toolbar(onSaveClick, onDeleteClick)
         Content(student, nameState)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Toolbar(onSaveClick: () -> Unit) {
+private fun Toolbar(onSaveClick: () -> Unit, onDeleteClick: () -> Unit) {
     TopAppBar(
         title = { Text("Student Detail") },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -66,6 +76,7 @@ private fun Toolbar(onSaveClick: () -> Unit) {
         ),
         actions = {
             IconButton(TablerIcons.Check, "Save", onSaveClick)
+            IconButton(TablerIcons.Trash, "Delete", onDeleteClick)
         }
     )
 }

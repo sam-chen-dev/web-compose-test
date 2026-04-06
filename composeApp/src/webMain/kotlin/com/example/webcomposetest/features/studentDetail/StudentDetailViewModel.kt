@@ -20,10 +20,12 @@ class StudentDetailViewModel(
     private val uiScope = viewModelScope
     private val _student = MutableStateFlow<Student?>(null)
     private val _isSavedSuccessfully = MutableSharedFlow<Boolean>()
+    private val _isDeletedSuccessfully = MutableSharedFlow<Boolean>()
 
     val nameState = TextFieldState()
     val student = _student.asStateFlow()
     val isSavedSuccessfully = _isSavedSuccessfully.asSharedFlow()
+    val isDeletedSuccessfully = _isDeletedSuccessfully.asSharedFlow()
 
     init {
         initStudent()
@@ -51,6 +53,18 @@ class StudentDetailViewModel(
         } catch (e: Exception) {
             println("Error: ${e.message.toString()}")
             _isSavedSuccessfully.emit(false)
+        }
+    }
+
+    fun deleteStudent() = uiScope.launch {
+        try {
+            val result = studentsRepo.deleteStudent(id)
+            println("result: $result")
+
+            _isDeletedSuccessfully.emit(true)
+        } catch (e: Exception) {
+            println("Error: ${e.message.toString()}")
+            _isDeletedSuccessfully.emit(false)
         }
     }
 }
