@@ -18,6 +18,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.webcomposetest.models.Student
 import org.koin.compose.viewmodel.koinViewModel
@@ -28,6 +30,10 @@ fun StudentListScreen(
 ) {
     val viewModel: StudentListViewModel = koinViewModel()
     val students by viewModel.students.collectAsStateWithLifecycle()
+
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
+        viewModel.refreshStudents()
+    }
 
     Column(
         modifier = Modifier.fillMaxWidth()

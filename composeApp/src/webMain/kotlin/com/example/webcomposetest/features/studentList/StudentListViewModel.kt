@@ -16,10 +16,10 @@ class StudentListViewModel(private val studentsRepo: StudentsRepoImpl) : ViewMod
     val students = _students.asStateFlow()
 
     init {
-        downloadStudents()
+        refreshStudents()
     }
 
-    fun downloadStudents() = uiScope.launch {
+    fun refreshStudents() = uiScope.launch {
         try {
             _students.update { studentsRepo.getStudents() }
         } catch (e: Exception) {
