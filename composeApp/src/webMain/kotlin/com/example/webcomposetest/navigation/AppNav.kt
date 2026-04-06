@@ -12,21 +12,22 @@ import kotlinx.serialization.Serializable
 data object StudentList : NavKey
 
 @Serializable
-data object StudentDetail : NavKey
+data class StudentDetail(val id: Long) : NavKey
 
 @Composable
 fun EntryProviderScope<NavKey>.StudentListEntry(backStack: SnapshotStateList<NavKey>) {
     entry<StudentList> {
         StudentListScreen(
-            onGoClick = { backStack.add(StudentDetail) }
+            onStudentClick = { id -> backStack.add(StudentDetail(id)) }
         )
     }
 }
 
 @Composable
 fun EntryProviderScope<NavKey>.StudentDetailEntry(backStack: SnapshotStateList<NavKey>) {
-    entry<StudentDetail> {
+    entry<StudentDetail> { key ->
         StudentDetailScreen(
+            id = key.id,
             onBackTrigger = { backStack.removeLastOrNull() }
         )
     }

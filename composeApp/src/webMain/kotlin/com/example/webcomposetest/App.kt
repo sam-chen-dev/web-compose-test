@@ -12,6 +12,7 @@ import com.example.webcomposetest.navigation.StudentList
 import com.github.terrakok.navigation3.browser.ChronologicalBrowserNavigation
 import com.github.terrakok.navigation3.browser.buildBrowserHistoryFragment
 import com.github.terrakok.navigation3.browser.getBrowserHistoryFragmentName
+import com.github.terrakok.navigation3.browser.getBrowserHistoryFragmentParameters
 import org.koin.compose.KoinApplication
 import org.koin.dsl.KoinConfiguration
 
@@ -29,7 +30,10 @@ fun App() = KoinApplication(
                     when (key) {
                         is StudentList -> buildBrowserHistoryFragment(StudentList.toString())
 
-                        is StudentDetail -> buildBrowserHistoryFragment(StudentDetail.toString())
+                        is StudentDetail -> buildBrowserHistoryFragment(
+                            StudentDetail.toString(),
+                            mapOf("id" to key.id.toString())
+                        )
 
                         else -> null
                     }
@@ -38,7 +42,10 @@ fun App() = KoinApplication(
                     when (getBrowserHistoryFragmentName(fragment)) {
                         StudentList.toString() -> StudentList
 
-                        StudentDetail.toString() -> StudentDetail
+                        StudentDetail.toString() -> StudentDetail(
+                            getBrowserHistoryFragmentParameters(fragment).getValue("id")?.toLong()
+                                ?: error("id is required")
+                        )
 
                         else -> null
                     }

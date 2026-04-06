@@ -22,5 +22,5 @@ val appModule = module {
 
     /*ViewModels*/
     viewModel { StudentListViewModel(get()) }
-    viewModel { StudentDetailViewModel() }
+    viewModel { params -> StudentDetailViewModel(params[0], get()) }
 }

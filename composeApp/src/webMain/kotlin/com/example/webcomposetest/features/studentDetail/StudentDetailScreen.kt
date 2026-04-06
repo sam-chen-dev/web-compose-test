@@ -1,54 +1,97 @@
 package com.example.webcomposetest.features.studentDetail
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldLabelPosition
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.webcomposetest.models.Student
+import com.example.webcomposetest.utils.IconButton
+import compose.icons.TablerIcons
+import compose.icons.tablericons.Check
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun StudentDetailScreen(
+    id: Long,
     onBackTrigger: () -> Unit
 ) {
-    val viewModel: StudentDetailViewModel = koinViewModel()
-    val number by viewModel.number.collectAsStateWithLifecycle()
+    val viewModel: StudentDetailViewModel = koinViewModel(parameters = { parametersOf(id) })
+    val student by viewModel.student.collectAsStateWithLifecycle()
+    val nameState = viewModel.nameState
+    val onSaveClick: () -> Unit = { viewModel.saveStudent() }
+
+    LaunchedEffect(Unit) {
+        viewModel.isSavedSuccessfully.collect { isSuccessful ->
+            if (isSuccessful) {
+                onBackTrigger()
+            }
+        }
+    }
 
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxSize()
     ) {
-        Toolbar(onBackTrigger)
-
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            //Button("Go Back", onBackTrigger)
-            Text("Number: $number")
-        }
+        Toolbar(onSaveClick)
+        Content(student, nameState)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Toolbar(onBackClick: () -> Unit) {
+private fun Toolbar(onSaveClick: () -> Unit) {
     TopAppBar(
         title = { Text("Student Detail") },
-        //navigationIcon = { IconButton(TablerIcons.ArrowLeft, "Back", onBackClick) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
             navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
             actionIconContentColor = MaterialTheme.colorScheme.onPrimary
-        )
+        ),
+        actions = {
+            IconButton(TablerIcons.Check, "Save", onSaveClick)
+        }
+    )
+}
+
+@Composable
+private fun Content(student: Student?, nameState: TextFieldState) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Text("ID: ${student?.id ?: ""}", fontSize = 20.sp)
+        Spacer(Modifier.height(16.dp))
+
+        NameTextField(nameState)
+        Spacer(Modifier.height(16.dp))
+
+        Text("Gender: ${student?.genderId ?: ""}", fontSize = 20.sp)
+    }
+}
+
+@Composable
+private fun NameTextField(state: TextFieldState) {
+    OutlinedTextField(
+        state = state,
+        label = { Text("Name") },
+        labelPosition = TextFieldLabelPosition.Attached(true)
     )
 }

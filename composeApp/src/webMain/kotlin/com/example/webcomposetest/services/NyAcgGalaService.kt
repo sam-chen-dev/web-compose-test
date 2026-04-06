@@ -10,6 +10,7 @@ import kotlinx.serialization.json.Json
 object NyAcgGalaService {
     val httpClient = HttpClient {
         defaultRequest {
+            header("Content-Type", "application/json")
             header("x-api-key", "samchenceo0877")
             url("https://nyacggala-staging.com/")
         }

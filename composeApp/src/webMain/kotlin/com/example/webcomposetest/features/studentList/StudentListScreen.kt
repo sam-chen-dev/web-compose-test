@@ -1,6 +1,6 @@
 package com.example.webcomposetest.features.studentList
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,18 +15,16 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.webcomposetest.models.Student
-import com.example.webcomposetest.utils.Button
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun StudentListScreen(
-    onGoClick: () -> Unit
+    onStudentClick: (Long) -> Unit
 ) {
     val viewModel: StudentListViewModel = koinViewModel()
     val students by viewModel.students.collectAsStateWithLifecycle()
@@ -35,16 +33,7 @@ fun StudentListScreen(
         modifier = Modifier.fillMaxWidth()
     ) {
         Toolbar()
-        StudentList(students)
-
-        /*Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Button("Go to Detail", onGoClick)
-            Text("Name: $name")
-        }*/
+        StudentList(students, onStudentClick)
     }
 }
 
@@ -63,21 +52,22 @@ private fun Toolbar() {
 }
 
 @Composable
-private fun StudentList(students: List<Student>) {
+private fun StudentList(students: List<Student>, onStudentClick: (Long) -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         items(students) { student ->
-            StudentListItem(student)
+            StudentListItem(student, onStudentClick)
         }
     }
 }
 
 @Composable
-private fun StudentListItem(student: Student) {
+private fun StudentListItem(student: Student, onStudentClick: (Long) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable { onStudentClick(student.id) }
             .padding(16.dp)
     ) {
         Text(student.name, fontSize = 20.sp)
