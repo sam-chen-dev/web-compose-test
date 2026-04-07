@@ -44,7 +44,7 @@ fun StudentListScreen(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Toolbar(onRefreshClick, onAddClick)
+        Toolbar(onAddClick, onRefreshClick)
         StudentList(students, onStudentClick)
     }
 }
