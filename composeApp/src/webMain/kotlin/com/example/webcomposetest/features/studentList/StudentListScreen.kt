@@ -24,12 +24,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.webcomposetest.models.Student
 import com.example.webcomposetest.utils.IconButton
 import compose.icons.TablerIcons
+import compose.icons.tablericons.Plus
 import compose.icons.tablericons.Refresh
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun StudentListScreen(
-    onStudentClick: (Long) -> Unit
+    onStudentClick: (Long) -> Unit,
+    onAddClick: () -> Unit
 ) {
     val viewModel: StudentListViewModel = koinViewModel()
     val students by viewModel.students.collectAsStateWithLifecycle()
@@ -42,14 +44,14 @@ fun StudentListScreen(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Toolbar(onRefreshClick)
+        Toolbar(onRefreshClick, onAddClick)
         StudentList(students, onStudentClick)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Toolbar(onRefreshClick: () -> Unit) {
+private fun Toolbar(onAddClick: () -> Unit, onRefreshClick: () -> Unit) {
     TopAppBar(
         title = { Text("Student List") },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -59,6 +61,7 @@ private fun Toolbar(onRefreshClick: () -> Unit) {
             actionIconContentColor = MaterialTheme.colorScheme.onPrimary
         ),
         actions = {
+            IconButton(TablerIcons.Plus, "Add", onAddClick)
             IconButton(TablerIcons.Refresh, "Refresh", onRefreshClick)
         }
     )

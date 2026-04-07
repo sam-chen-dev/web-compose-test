@@ -1,9 +1,7 @@
 package com.example.webcomposetest.features.studentDetail
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,7 +16,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.webcomposetest.models.Student
 import com.example.webcomposetest.utils.IconButton
@@ -38,10 +35,19 @@ fun StudentDetailScreen(
     val nameState = viewModel.nameState
     val onSaveClick: () -> Unit = { viewModel.saveStudent() }
     val onDeleteClick: () -> Unit = { viewModel.deleteStudent() }
+    val isShowDelete = id != -1L
 
     LaunchedEffect(Unit) {
         viewModel.isSavedSuccessfully.collect { isSavedSuccessfully ->
             if (isSavedSuccessfully) {
+                onBackTrigger()
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.isUpdateSuccessfully.collect { isUpdateSuccessfully ->
+            if (isUpdateSuccessfully) {
                 onBackTrigger()
             }
         }
@@ -58,14 +64,14 @@ fun StudentDetailScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        Toolbar(onSaveClick, onDeleteClick)
+        Toolbar(onSaveClick, onDeleteClick, isShowDelete)
         Content(student, nameState)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Toolbar(onSaveClick: () -> Unit, onDeleteClick: () -> Unit) {
+private fun Toolbar(onSaveClick: () -> Unit, onDeleteClick: () -> Unit, isShowDelete: Boolean) {
     TopAppBar(
         title = { Text("Student Detail") },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -76,7 +82,10 @@ private fun Toolbar(onSaveClick: () -> Unit, onDeleteClick: () -> Unit) {
         ),
         actions = {
             IconButton(TablerIcons.Check, "Save", onSaveClick)
-            IconButton(TablerIcons.Trash, "Delete", onDeleteClick)
+
+            if (isShowDelete) {
+                IconButton(TablerIcons.Trash, "Delete", onDeleteClick)
+            }
         }
     )
 }
@@ -88,13 +97,7 @@ private fun Content(student: Student?, nameState: TextFieldState) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Text("ID: ${student?.id ?: ""}", fontSize = 20.sp)
-        Spacer(Modifier.height(16.dp))
-
         NameTextField(nameState)
-        Spacer(Modifier.height(16.dp))
-
-        Text("Gender: ${student?.genderId ?: ""}", fontSize = 20.sp)
     }
 }
 

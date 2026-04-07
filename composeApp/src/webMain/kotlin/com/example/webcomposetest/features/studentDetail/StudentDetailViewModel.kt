@@ -18,17 +18,21 @@ class StudentDetailViewModel(
     private val studentsRepo: StudentsRepoImpl
 ) : ViewModel() {
     private val uiScope = viewModelScope
-    private val _student = MutableStateFlow<Student?>(null)
+    private val _student = MutableStateFlow<Student?>(Student())
     private val _isSavedSuccessfully = MutableSharedFlow<Boolean>()
+    private val _isUpdateSuccessfully = MutableSharedFlow<Boolean>()
     private val _isDeletedSuccessfully = MutableSharedFlow<Boolean>()
 
     val nameState = TextFieldState()
     val student = _student.asStateFlow()
     val isSavedSuccessfully = _isSavedSuccessfully.asSharedFlow()
+    val isUpdateSuccessfully = _isUpdateSuccessfully.asSharedFlow()
     val isDeletedSuccessfully = _isDeletedSuccessfully.asSharedFlow()
 
     init {
-        initStudent()
+        if (id != -1L) {
+            initStudent()
+        }
     }
 
     private fun initStudent() = uiScope.launch {
@@ -40,12 +44,20 @@ class StudentDetailViewModel(
         }
     }
 
-    fun saveStudent() = uiScope.launch {
-        try {
-            _student.update { it?.copy(name = nameState.text.toString()) }
+    fun saveStudent() {
+        _student.update { it?.copy(name = nameState.text.toString()) }
 
+        if (id == -1L) {
+            addStudent()
+        } else {
+            updateStudent()
+        }
+    }
+
+    fun addStudent() = uiScope.launch {
+        try {
             _student.value?.let { student ->
-                val result = studentsRepo.updateStudent(student)
+                val result = studentsRepo.addStudent(student)
                 println("result: $result")
 
                 _isSavedSuccessfully.emit(true)
@@ -53,6 +65,20 @@ class StudentDetailViewModel(
         } catch (e: Exception) {
             println("Error: ${e.message.toString()}")
             _isSavedSuccessfully.emit(false)
+        }
+    }
+
+    fun updateStudent() = uiScope.launch {
+        try {
+            _student.value?.let { student ->
+                val result = studentsRepo.updateStudent(student)
+                println("result: $result")
+
+                _isUpdateSuccessfully.emit(true)
+            }
+        } catch (e: Exception) {
+            println("Error: ${e.message.toString()}")
+            _isUpdateSuccessfully.emit(false)
         }
     }
 

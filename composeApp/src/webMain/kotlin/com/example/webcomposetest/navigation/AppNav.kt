@@ -18,7 +18,8 @@ data class StudentDetail(val id: Long) : NavKey
 fun EntryProviderScope<NavKey>.StudentListEntry(backStack: SnapshotStateList<NavKey>) {
     entry<StudentList> {
         StudentListScreen(
-            onStudentClick = { id -> backStack.add(StudentDetail(id)) }
+            onStudentClick = { id -> backStack.add(StudentDetail(id)) },
+            onAddClick = { backStack.add(StudentDetail(-1L)) }
         )
     }
 }
