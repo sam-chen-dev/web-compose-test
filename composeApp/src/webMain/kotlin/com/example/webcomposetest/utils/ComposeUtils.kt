@@ -12,10 +12,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.TextUnit
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun Text(text: String, color: Color = Color.Unspecified, fontSize: TextUnit = TextUnit.Unspecified) {
     Text(text, color = color, fontSize = fontSize)
+}
+
+@Composable
+fun Text(res: StringResource, color: Color = Color.Unspecified, fontSize: TextUnit = TextUnit.Unspecified) {
+    Text(stringResource(res), color = color, fontSize = fontSize)
 }
 
 @Composable
@@ -27,6 +36,18 @@ fun IconButton(
 ) {
     IconButton(onClick) {
         Icon(imageVector, contentDescription, tint = tint)
+    }
+}
+
+@Composable
+fun IconButton(
+    res: DrawableResource,
+    contentDescription: String,
+    onClick: () -> Unit,
+    tint: Color = LocalContentColor.current
+) {
+    IconButton(onClick) {
+        Icon(painterResource(res), contentDescription, tint = tint)
     }
 }
 

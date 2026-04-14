@@ -7,7 +7,6 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldLabelPosition
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -19,11 +18,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.webcomposetest.models.Student
 import com.example.webcomposetest.utils.IconButton
+import com.example.webcomposetest.utils.Text
 import compose.icons.TablerIcons
 import compose.icons.tablericons.Check
-import compose.icons.tablericons.Trash
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import webcomposetest.composeapp.generated.resources.Res
+import webcomposetest.composeapp.generated.resources.ic_trash_outlined
+import webcomposetest.composeapp.generated.resources.name_label
+import webcomposetest.composeapp.generated.resources.student_detail_title
 
 @Composable
 fun StudentDetailScreen(
@@ -73,7 +76,7 @@ fun StudentDetailScreen(
 @Composable
 private fun Toolbar(onSaveClick: () -> Unit, onDeleteClick: () -> Unit, isShowDelete: Boolean) {
     TopAppBar(
-        title = { Text("Student Detail") },
+        title = { Text(Res.string.student_detail_title) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -84,7 +87,8 @@ private fun Toolbar(onSaveClick: () -> Unit, onDeleteClick: () -> Unit, isShowDe
             IconButton(TablerIcons.Check, "Save", onSaveClick)
 
             if (isShowDelete) {
-                IconButton(TablerIcons.Trash, "Delete", onDeleteClick)
+                IconButton(Res.drawable.ic_trash_outlined, "Delete", onDeleteClick)
+                //IconButton(TablerIcons.Trash, "Delete", onDeleteClick)
             }
         }
     )
@@ -105,7 +109,7 @@ private fun Content(student: Student?, nameState: TextFieldState) {
 private fun NameTextField(state: TextFieldState) {
     OutlinedTextField(
         state = state,
-        label = { Text("Name") },
+        label = { Text(Res.string.name_label) },
         labelPosition = TextFieldLabelPosition.Attached(true)
     )
 }

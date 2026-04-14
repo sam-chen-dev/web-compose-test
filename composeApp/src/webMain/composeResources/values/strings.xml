@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Web Compose Test</string>
+
+    <!--Student List-->
+    <string name="student_list_title">Student List</string>
+
+    <!--Student Detail-->
+    <string name="student_detail_title">Student Detail</string>
+    <string name="name_label">Name</string>
+
+</resources>
