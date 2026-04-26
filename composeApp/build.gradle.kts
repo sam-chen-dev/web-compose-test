@@ -41,6 +41,9 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             //implementation(libs.datastore)
             //implementation(libs.datastore.preferences)
+            implementation(libs.kpayment.core)
+            implementation(libs.kpayment.web)
+            implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
