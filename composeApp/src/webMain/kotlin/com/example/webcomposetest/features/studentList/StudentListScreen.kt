@@ -28,6 +28,7 @@ import com.example.webcomposetest.models.Student
 import com.example.webcomposetest.utils.IconButton
 import com.example.webcomposetest.utils.Text
 import compose.icons.TablerIcons
+import compose.icons.tablericons.CreditCard
 import compose.icons.tablericons.Plus
 import compose.icons.tablericons.Refresh
 import org.koin.compose.viewmodel.koinViewModel
@@ -37,7 +38,8 @@ import webcomposetest.composeapp.generated.resources.student_list_title
 @Composable
 fun StudentListScreen(
     onStudentClick: (Long) -> Unit,
-    onAddClick: () -> Unit
+    onAddClick: () -> Unit,
+    onPayClick: () -> Unit
 ) {
     val viewModel: StudentListViewModel = koinViewModel()
     val students by viewModel.students.collectAsStateWithLifecycle()
@@ -50,14 +52,14 @@ fun StudentListScreen(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Toolbar(onAddClick, onRefreshClick)
+        Toolbar(onAddClick, onRefreshClick, onPayClick)
         StudentList(students, onStudentClick)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Toolbar(onAddClick: () -> Unit, onRefreshClick: () -> Unit) {
+private fun Toolbar(onAddClick: () -> Unit, onRefreshClick: () -> Unit, onPayClick: () -> Unit) {
     TopAppBar(
         title = { Text(Res.string.student_list_title) },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -69,6 +71,7 @@ private fun Toolbar(onAddClick: () -> Unit, onRefreshClick: () -> Unit) {
         actions = {
             IconButton(TablerIcons.Plus, "Add", onAddClick)
             IconButton(TablerIcons.Refresh, "Refresh", onRefreshClick)
+            IconButton(TablerIcons.CreditCard, "Pay", onPayClick)
         }
     )
 }
