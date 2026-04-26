@@ -12,7 +12,8 @@ object NyAcgGalaService {
         defaultRequest {
             header("Content-Type", "application/json")
             header("x-api-key", "samchenceo0877")
-            url("https://nyacggala-staging.com/")
+            //url("https://nyacggala-staging.com/")
+            url("https://www.nyacggala.com/")
         }
 
         install(ContentNegotiation) {
