@@ -80,7 +80,7 @@ class PurchasePapersViewModel(
             val total = totalState.text.toString().toDouble()
             val json = Json.parseToJsonElement(tokenJsonString).jsonObject
             val token = json["id"]!!.jsonPrimitive.content
-            val clientSecret = paymentRepo.processPayment(total, token)
+            val clientSecret = paymentRepo.processPayment(token, total)
             println("Payment result: $clientSecret")
         } catch (e: Exception) {
             println("Error: ${e.message.toString()}")

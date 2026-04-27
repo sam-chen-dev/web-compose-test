@@ -8,8 +8,8 @@ import io.ktor.client.statement.bodyAsText
 class PaymentRepoImpl(
     private val paymentApi: PaymentApi
 ) : PaymentRepo {
-    override suspend fun processPayment(amount: Double, token: String): String {
-        val result = paymentApi.processPayment(amount, token)
+    override suspend fun processPayment(token: String, amount: Double): String {
+        val result = paymentApi.processPayment(token, amount)
 
         if (!result.isSuccessful()) {
             throw Exception(result.bodyAsText())
