@@ -5,8 +5,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberNavBackStack
 import com.example.webcomposetest.di.appModule
 import com.example.webcomposetest.navigation.NavDisplay
+import com.example.webcomposetest.navigation.OrderConfirmation
+import com.example.webcomposetest.navigation.OrderList
+import com.example.webcomposetest.navigation.Payment
+import com.example.webcomposetest.navigation.PurchasePapers
 import com.example.webcomposetest.navigation.StudentDetail
 import com.example.webcomposetest.navigation.StudentList
 import com.github.terrakok.navigation3.browser.ChronologicalBrowserNavigation
@@ -21,7 +26,7 @@ fun App() = KoinApplication(
     configuration = KoinConfiguration { modules(appModule) },
     content = {
         MaterialTheme {
-            val backStack = remember { mutableStateListOf<NavKey>(StudentList) }
+            val backStack = remember { mutableStateListOf<NavKey>(PurchasePapers) }
             //val backStack = rememberNavBackStack(StudentList)
 
             ChronologicalBrowserNavigation(
@@ -35,6 +40,17 @@ fun App() = KoinApplication(
                             mapOf("id" to key.id.toString())
                         )
 
+                        is Payment -> buildBrowserHistoryFragment(Payment.toString())
+
+                        is PurchasePapers -> buildBrowserHistoryFragment(PurchasePapers.toString())
+
+                        is OrderConfirmation -> buildBrowserHistoryFragment(
+                            OrderConfirmation.toString(),
+                            mapOf("id" to key.id)
+                        )
+
+                        is OrderList -> buildBrowserHistoryFragment(OrderList.toString())
+
                         else -> null
                     }
                 },
@@ -46,6 +62,17 @@ fun App() = KoinApplication(
                             getBrowserHistoryFragmentParameters(fragment).getValue("id")?.toLong()
                                 ?: error("id is required")
                         )
+
+                        Payment.toString() -> Payment
+
+                        PurchasePapers.toString() -> PurchasePapers
+
+                        OrderConfirmation.toString() -> OrderConfirmation(
+                            getBrowserHistoryFragmentParameters(fragment).getValue("id")
+                                ?: error("id is required")
+                        )
+
+                        OrderList.toString() -> OrderList
 
                         else -> null
                     }
