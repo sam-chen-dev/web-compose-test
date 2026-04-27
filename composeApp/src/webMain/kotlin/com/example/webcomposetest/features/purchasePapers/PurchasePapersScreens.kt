@@ -44,7 +44,6 @@ import com.example.webcomposetest.utils.TonalIconButton
 import com.example.webcomposetest.utils.showDecimal
 import com.kttipay.payment.WebPaymentManager
 import com.kttipay.payment.api.PaymentEnvironment
-import com.kttipay.payment.api.PaymentErrorReason
 import com.kttipay.payment.api.PaymentLauncher
 import com.kttipay.payment.api.PaymentResult
 import com.kttipay.payment.api.config.GatewayConfig
