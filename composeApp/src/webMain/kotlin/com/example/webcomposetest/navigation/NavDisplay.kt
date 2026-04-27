@@ -27,6 +27,9 @@ fun NavDisplay(backStack: SnapshotStateList<NavKey>) {
         entryProvider = entryProvider {
             StudentListEntry(backStack)
             StudentDetailEntry(backStack)
+            PurchasePapersEntry(backStack)
+            OrderConfirmationEntry(backStack)
+            OrderListEntry(backStack)
         },
         transitionSpec = {
             slideInHorizontally(
