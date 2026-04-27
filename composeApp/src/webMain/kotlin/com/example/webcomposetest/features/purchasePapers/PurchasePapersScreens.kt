@@ -231,7 +231,12 @@ private fun createWebPaymentConfig() = WebPaymentConfig(
         merchantName = stringResource(Res.string.merchant_name),
         //gateway = GatewayConfig.Stripe(stringResource(Res.string.stripe_production_publishable_key))),
         gateway = GatewayConfig.Stripe(stringResource(Res.string.stripe_test_publishable_key)),
-        allowedCardNetworks = setOf(GooglePayCardNetwork.VISA, GooglePayCardNetwork.MASTERCARD, GooglePayCardNetwork.AMEX, GooglePayCardNetwork.DISCOVER),
+        allowedCardNetworks = setOf(
+            GooglePayCardNetwork.VISA,
+            GooglePayCardNetwork.MASTERCARD,
+            GooglePayCardNetwork.AMEX,
+            GooglePayCardNetwork.DISCOVER
+        ),
         allowedAuthMethods = setOf(GooglePayAuthMethod.PAN_ONLY, GooglePayAuthMethod.CRYPTOGRAM_3DS),
         allowCreditCards = true,
         currencyCode = "USD",
@@ -248,22 +253,8 @@ private fun GooglePayButton(
     PaymentManagerProvider(paymentManager) {
         val googlePayLauncher = rememberGooglePayWebLauncher { result ->
             when (result) {
-                is PaymentResult.Success -> {
-                    onGooglePayTokenReceived(result.token)
-                }
-                is PaymentResult.Error -> {
-                    when (result.reason) {
-                        PaymentErrorReason.NetworkError -> println("Network Error")
-                        PaymentErrorReason.NotAvailable -> println("Not Available")
-                        PaymentErrorReason.AlreadyInProgress -> {
-                            /* disable button via launcher.isProcessing */
-                            println("Processing")
-                        }
-
-                        else -> println("Unknown Error")
-                    }
-                }
-
+                is PaymentResult.Success -> onGooglePayTokenReceived(result.token)
+                is PaymentResult.Error -> println("Error: ${result.reason.name}")
                 is PaymentResult.Cancelled -> println("Payment Cancelled")
             }
         }
