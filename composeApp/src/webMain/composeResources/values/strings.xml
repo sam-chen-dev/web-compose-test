@@ -8,4 +8,9 @@
     <string name="student_detail_title">Student Detail</string>
     <string name="name_label">Name</string>
 
+    <!--Stripe Publishable Keys-->
+    <string name="merchant_name">Sam Chen Dev</string>
+    <string name="stripe_test_publishable_key">pk_test_51Swy3EI0dpttvRQeuyMff5ZhbWfw6DMSPnjyeNbknbRTQkVK7CK7IPpKWDUx758wn68rtQpbM3PbV2riQCerhGE300iXW0Df5C</string>
+    <string name="stripe_production_publishable_key">pk_live_51Swy3EI0dpttvRQeyJIKSLpsfZBudEbKYAi44i7sKE2W0UzlQwALSVga2MO574JIDGHOU1P5LHSsYOyCOkI2X5mO00AoYVAkVM</string>
+
 </resources>
