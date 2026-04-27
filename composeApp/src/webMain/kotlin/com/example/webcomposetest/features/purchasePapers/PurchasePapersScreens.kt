@@ -59,10 +59,14 @@ import compose.icons.TablerIcons
 import compose.icons.tablericons.Minus
 import compose.icons.tablericons.Plus
 import kotlinx.coroutines.flow.collectLatest
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import webcomposetest.composeapp.generated.resources.Res
 import webcomposetest.composeapp.generated.resources.google_pay_buton
+import webcomposetest.composeapp.generated.resources.google_pay_merchant_id
+import webcomposetest.composeapp.generated.resources.merchant_name
 import webcomposetest.composeapp.generated.resources.receipt_paper_product
+import webcomposetest.composeapp.generated.resources.stripe_test_publishable_key
 
 @Composable
 fun PurchasePapersScreen(onNavigateToOrderConfirmationTrigger: (String) -> Unit) {
@@ -218,14 +222,15 @@ private fun InfoTextField(state: TextFieldState, label: String) {
     )
 }
 
+@Composable
 private fun createWebPaymentConfig() = WebPaymentConfig(
     //environment = PaymentEnvironment.Production,
     environment = PaymentEnvironment.Development,
     googlePay = GooglePayConfig(
-        merchantId = "BCR2DN5T5376ZNKG",
-        merchantName = "Sam Chen Dev",
-        //gateway = GatewayConfig.Stripe("pk_live_51Swy3EI0dpttvRQeyJIKSLpsfZBudEbKYAi44i7sKE2W0UzlQwALSVga2MO574JIDGHOU1P5LHSsYOyCOkI2X5mO00AoYVAkVM"),
-        gateway = GatewayConfig.Stripe("pk_test_51Swy3EI0dpttvRQeuyMff5ZhbWfw6DMSPnjyeNbknbRTQkVK7CK7IPpKWDUx758wn68rtQpbM3PbV2riQCerhGE300iXW0Df5C"),
+        merchantId = stringResource(Res.string.google_pay_merchant_id),
+        merchantName = stringResource(Res.string.merchant_name),
+        //gateway = GatewayConfig.Stripe(stringResource(Res.string.stripe_production_publishable_key))),
+        gateway = GatewayConfig.Stripe(stringResource(Res.string.stripe_test_publishable_key)),
         allowedCardNetworks = setOf(GooglePayCardNetwork.VISA, GooglePayCardNetwork.MASTERCARD, GooglePayCardNetwork.AMEX, GooglePayCardNetwork.DISCOVER),
         allowedAuthMethods = setOf(GooglePayAuthMethod.PAN_ONLY, GooglePayAuthMethod.CRYPTOGRAM_3DS),
         allowCreditCards = true,
@@ -237,11 +242,11 @@ private fun createWebPaymentConfig() = WebPaymentConfig(
 @Composable
 private fun GooglePayButton(
     paymentManager: WebPaymentManager,
-    onGooglePayClick: (PaymentLauncher, ) -> Unit,
+    onGooglePayClick: (PaymentLauncher) -> Unit,
     onGooglePayTokenReceived: (String) -> Unit
 ) {
     PaymentManagerProvider(paymentManager) {
-        val googlePay = rememberGooglePayWebLauncher { result ->
+        val googlePayLauncher = rememberGooglePayWebLauncher { result ->
             when (result) {
                 is PaymentResult.Success -> {
                     onGooglePayTokenReceived(result.token)
@@ -267,7 +272,7 @@ private fun GooglePayButton(
             Res.drawable.google_pay_buton,
             "Google Pay",
             ContentScale.None,
-            Modifier.clickable { onGooglePayClick(googlePay) }
+            Modifier.clickable { onGooglePayClick(googlePayLauncher) }
         )
     }
 }
