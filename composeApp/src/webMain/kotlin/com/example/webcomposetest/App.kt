@@ -5,12 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavKey
-import androidx.navigation3.runtime.rememberNavBackStack
 import com.example.webcomposetest.di.appModule
 import com.example.webcomposetest.navigation.NavDisplay
 import com.example.webcomposetest.navigation.OrderConfirmation
 import com.example.webcomposetest.navigation.OrderList
-import com.example.webcomposetest.navigation.Payment
 import com.example.webcomposetest.navigation.PurchasePapers
 import com.example.webcomposetest.navigation.StudentDetail
 import com.example.webcomposetest.navigation.StudentList
@@ -40,8 +38,6 @@ fun App() = KoinApplication(
                             mapOf("id" to key.id.toString())
                         )
 
-                        is Payment -> buildBrowserHistoryFragment(Payment.toString())
-
                         is PurchasePapers -> buildBrowserHistoryFragment(PurchasePapers.toString())
 
                         is OrderConfirmation -> buildBrowserHistoryFragment(
@@ -62,8 +58,6 @@ fun App() = KoinApplication(
                             getBrowserHistoryFragmentParameters(fragment).getValue("id")?.toLong()
                                 ?: error("id is required")
                         )
-
-                        Payment.toString() -> Payment
 
                         PurchasePapers.toString() -> PurchasePapers
 
