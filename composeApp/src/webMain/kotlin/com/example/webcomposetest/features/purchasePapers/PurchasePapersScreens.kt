@@ -38,6 +38,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.webcomposetest.utils.Constants
 import com.example.webcomposetest.utils.Image
 import com.example.webcomposetest.utils.PriceOutputTransformation
 import com.example.webcomposetest.utils.TonalIconButton
@@ -58,14 +59,10 @@ import compose.icons.TablerIcons
 import compose.icons.tablericons.Minus
 import compose.icons.tablericons.Plus
 import kotlinx.coroutines.flow.collectLatest
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import webcomposetest.composeapp.generated.resources.Res
 import webcomposetest.composeapp.generated.resources.google_pay_buton
-import webcomposetest.composeapp.generated.resources.google_pay_merchant_id
-import webcomposetest.composeapp.generated.resources.merchant_name
 import webcomposetest.composeapp.generated.resources.receipt_paper_product
-import webcomposetest.composeapp.generated.resources.stripe_test_publishable_key
 
 @Composable
 fun PurchasePapersScreen(onNavigateToOrderConfirmationTrigger: (String) -> Unit) {
@@ -226,10 +223,10 @@ private fun createWebPaymentConfig() = WebPaymentConfig(
     //environment = PaymentEnvironment.Production,
     environment = PaymentEnvironment.Development,
     googlePay = GooglePayConfig(
-        merchantId = stringResource(Res.string.google_pay_merchant_id),
-        merchantName = stringResource(Res.string.merchant_name),
-        //gateway = GatewayConfig.Stripe(stringResource(Res.string.stripe_production_publishable_key))),
-        gateway = GatewayConfig.Stripe(stringResource(Res.string.stripe_test_publishable_key)),
+        merchantId = Constants.GOOGLE_PAY_MERCHANT_ID,
+        merchantName = Constants.MERCHANT_NAME,
+        //gateway = GatewayConfig.Stripe(Constants.STRIPE_PRODUCTION_PUBLISHABLE_KEY),
+        gateway = GatewayConfig.Stripe(Constants.STRIPE_TEST_PUBLISHABLE_KEY),
         allowedCardNetworks = setOf(
             GooglePayCardNetwork.VISA,
             GooglePayCardNetwork.MASTERCARD,
