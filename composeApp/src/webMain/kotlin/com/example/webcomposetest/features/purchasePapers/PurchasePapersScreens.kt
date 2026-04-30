@@ -158,8 +158,8 @@ fun PurchasePapersScreen(onNavigateToOrderConfirmationTrigger: (String) -> Unit)
                 InfoTextField(customerEmailState, "Customer Email")
                 Spacer(Modifier.height(16.dp))
 
-                InfoTextField(customerAddressState, "Customer Address")
-                Spacer(Modifier.height(32.dp))
+                /*InfoTextField(customerAddressState, "Customer Address")
+                Spacer(Modifier.height(32.dp))*/
 
                 HorizontalDivider()
                 Spacer(Modifier.height(32.dp))

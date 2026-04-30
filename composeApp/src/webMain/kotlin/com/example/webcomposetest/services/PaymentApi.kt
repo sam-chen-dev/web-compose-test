@@ -7,7 +7,7 @@ import io.ktor.client.statement.HttpResponse
 
 class PaymentApi(private val httpClient: HttpClient) {
     suspend fun processPayment(token: String, amount: Double): HttpResponse {
-        return httpClient.post("payment-web") {
+        return httpClient.post("payment") {
             parameter("token", token)
             parameter("amount", amount)
         }
