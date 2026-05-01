@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.webcomposetest.enums.PaymentStatus
 import com.example.webcomposetest.models.Order
+import com.example.webcomposetest.models.PaymentRequest
 import com.example.webcomposetest.models.Product
 import com.example.webcomposetest.repos.OrdersRepoImpl
 import com.example.webcomposetest.repos.PaymentRepoImpl
@@ -80,7 +81,8 @@ class PurchasePapersViewModel(
             val total = totalState.text.toString().toDouble()
             val json = Json.parseToJsonElement(tokenJsonString).jsonObject
             val token = json["id"]!!.jsonPrimitive.content
-            val paymentId = paymentRepo.processPayment(token, total)
+            val paymentRequest = PaymentRequest(token, total)
+            val paymentId = paymentRepo.processPayment(paymentRequest)
             println("paymentId: $paymentId")
         } catch (e: Exception) {
             println("Error: ${e.message.toString()}")
