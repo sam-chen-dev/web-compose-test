@@ -8,4 +8,7 @@
     <string name="student_detail_title">Student Detail</string>
     <string name="name_label">Name</string>
 
+    <!--General-->
+    <string name="processing">Processing...</string>
+
 </resources>
