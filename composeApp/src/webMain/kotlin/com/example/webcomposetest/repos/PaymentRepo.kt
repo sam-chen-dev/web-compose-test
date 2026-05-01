@@ -1,5 +1,7 @@
 package com.example.webcomposetest.repos
 
+import com.example.webcomposetest.models.PaymentRequest
+
 interface PaymentRepo {
-    suspend fun processPayment(token: String, amount: Double): String
+    suspend fun processPayment(request: PaymentRequest): String
 }
