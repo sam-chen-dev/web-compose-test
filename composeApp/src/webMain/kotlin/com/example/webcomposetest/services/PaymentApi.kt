@@ -1,15 +1,15 @@
 package com.example.webcomposetest.services
 
+import com.example.webcomposetest.models.PaymentRequest
 import io.ktor.client.HttpClient
-import io.ktor.client.request.parameter
 import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 
 class PaymentApi(private val httpClient: HttpClient) {
-    suspend fun processPayment(token: String, amount: Double): HttpResponse {
+    suspend fun processPayment(request: PaymentRequest): HttpResponse {
         return httpClient.post("payment") {
-            parameter("token", token)
-            parameter("amount", amount)
+            setBody(request)
         }
     }
 }
